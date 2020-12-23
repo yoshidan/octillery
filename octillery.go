@@ -35,7 +35,10 @@ func LoadConfig(configPath string) error {
 	if err != nil {
 		return errors.WithStack(err)
 	}
-	return errors.WithStack(connection.SetConfig(cfg))
+	if cfg.AutoSetup {
+		return errors.WithStack(connection.SetConfig(cfg))
+	}
+	return nil
 }
 
 // Exec invoke sql.Query or sql.Exec by query type.
