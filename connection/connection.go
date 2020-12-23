@@ -801,7 +801,10 @@ func NewConnectionManager() (*DBConnectionManager, error) {
 // SetConfig set config.Config instance to internal global variable
 func SetConfig(cfg *config.Config) error {
 	globalConfig = cfg
-	return errors.WithStack(setupDBFromConfig(cfg))
+	if cfg.AutoSetup {
+		return errors.WithStack(setupDBFromConfig(cfg))
+	}
+	return nil
 }
 
 func setupDBFromConfig(config *config.Config) error {
